@@ -10,6 +10,7 @@ DBID=$(doctl databases list --format ID --no-header)
 DBSTATUS=$(doctl databases get $DBID --format Status --no-header)
 while [ "$DBSTATUS" != "online" ]
 do
+  DBID=$(doctl databases list --format ID --no-header)
   DBSTATUS=$(doctl databases get $DBID --format Status --no-header)
   echo "Current status: $DBSTATUS"
   echo "Waiting for DB server to come online..."
@@ -24,10 +25,9 @@ DBSERVER=$(echo $DBURISERVERRAW | cut -d':' -f1)
 DBPORTRAW=$(echo $DBURISERVERRAW | cut -d':' -f2)
 DBPORT=$(echo $DBPORTRAW | cut -d'/' -f1)
 USEREMAIL=$(doctl account get --format Email --no-header)
-sed -- "s/{DBPASSWORD}/$DBPASSWORD/g;s/{USEREMAIL}/$USEREMAIL/g;s/{DBSERVER}/$DBSERVER/g;s/{DBPORT}/$DBPORT/g" values-template.yaml > values.yaml
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-git clone https://github.com/helm/charts.git
 helm init --service-account tiller
-helm init --upgrade
-helm install --name oneclickwordpress -f ./values.yaml charts/stable/wordpress
+git clone https://github.com/helm/charts.git
+sed -- "s/{DBPASSWORD}/$DBPASSWORD/g;s/{USEREMAIL}/$USEREMAIL/g;s/{DBSERVER}/$DBSERVER/g;s/{DBPORT}/$DBPORT/g" values-production.yaml > charts/stable/wordpress/values.yaml
+helm install --name oneclickwordpress -f charts/stable/wordpress/values.yaml charts/stable/wordpress
