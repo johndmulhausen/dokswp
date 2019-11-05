@@ -1,0 +1,19 @@
+## Blog/Site Info
+wordpressUsername: sammy
+wordpressPassword: password
+wordpressEmail: jmulhausen@digitalocean.com
+wordpressFirstName: Sammy
+wordpressLastName: the Shark
+wordpressBlogName: Sammy's Blog!
+
+## Database Settings
+externalDatabase:
+  host: oneclickmysql-do-user-6717906-0.db.ondigitalocean.com
+  user: wordpress_user
+  password: urrl7u6wvquycc0i
+  database: wordpress
+  port: 25060
+
+## Disabling MariaDB
+mariadb:
+  enabled: false

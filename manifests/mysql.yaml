@@ -1,0 +1,14 @@
+apiVersion: doop.do.co/v1alpha1
+kind: Database
+metadata:
+  name: oneclickmysql
+spec:
+  name: oneclickmysql
+  engine: mysql
+  version: "8"
+  size: db-s-2vcpu-4gb
+  region: sfo2
+  numNodes: 2
+  tags:
+  - oneclickmysql
+  - doop
