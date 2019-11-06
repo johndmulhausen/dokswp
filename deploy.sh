@@ -22,6 +22,7 @@ DBSERVER=$(echo $DBURISERVERRAW | cut -d':' -f1)
 DBPORTRAW=$(echo $DBURISERVERRAW | cut -d':' -f2)
 DBPORT=$(echo $DBPORTRAW | cut -d'/' -f1)
 USEREMAIL=$(doctl account get --format Email --no-header)
+docker run mysql mysql --host=$DBSERVER --user=wordpress_user --password=$DBPASSWORD --port $DBPORT -e "ALTER USER wordpress_user IDENTIFIED WITH mysql_native_password BY '$DBPASSWORD';"
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 helm init --upgrade --service-account tiller
